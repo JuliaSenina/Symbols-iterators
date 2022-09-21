@@ -23,13 +23,23 @@ export default class Team {
     });
     return arr;
   };
-  
-  iteration() {
-    const iterator = this.members[Symbol.iterator]();
-    while (true) {
-      const result = iterator.next();
-      if (result.done) break;
-      console.log(result.value);
-    };
-  };
+
+  [Symbol.iterator]() {
+    let count = 0;
+    let last = this.members.size;
+    return {
+      next() {
+        if(count < last) {
+          return {
+            done: false,
+            value: count++
+          }
+        } else {
+          return {
+            done: true
+          }
+        }
+      }
+    }
+  }
 }
